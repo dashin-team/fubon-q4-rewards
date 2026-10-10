@@ -1,0 +1,96 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="robots" content="noindex,nofollow"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>富邦人壽 115年第四季 競賽獎勵總覽</title>
+<style>
+:root{--b:#0a5ea8;--g:#1f9d6b;--bg:#f4f7fb;--t:#1d2733}
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;background:var(--bg);color:var(--t);line-height:1.6}
+header{background:linear-gradient(135deg,#0a5ea8,#1f9d6b);color:#fff;padding:22px 16px}header h1{margin:0;font-size:1.35rem}header p{margin:6px 0 0;opacity:.92;font-size:.92rem}
+main{max-width:960px;margin:auto;padding:12px}
+.sticky{position:sticky;top:0;z-index:5;background:var(--bg);padding:8px 0}
+.tabs{display:flex;gap:6px;flex-wrap:wrap}.tabs button{flex:1;min-width:70px;padding:10px 6px;border:2px solid var(--b);background:#fff;color:var(--b);border-radius:10px;font-weight:700;font-size:1rem}
+.tabs button.on{background:var(--b);color:#fff}
+input[type=search],select,input[type=number]{width:100%;padding:10px;border:1px solid #c9d3df;border-radius:10px;font-size:1rem;margin-top:8px}
+.card{background:#fff;border-radius:14px;padding:14px;margin:12px 0;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.card h3{margin:0 0 4px;font-size:1.05rem}.meta{font-size:.82rem;color:#5a6878}
+.tag{display:inline-block;font-size:.75rem;padding:1px 8px;border-radius:99px;background:#e6f0fa;color:var(--b);margin:2px 4px 2px 0}
+table{width:100%;border-collapse:collapse;margin:8px 0;font-size:.9rem}td,th{border:1px solid #dde4ec;padding:6px;text-align:left;vertical-align:top}th{background:#eef4fa}
+dl{margin:6px 0}dt{font-weight:700;color:var(--b);margin-top:6px;font-size:.9rem}dd{margin:0;font-size:.92rem}
+h2{font-size:1.15rem;margin:22px 0 4px;border-left:5px solid var(--g);padding-left:8px}
+.tl li{margin:4px 0}.tl b{color:var(--b)}
+.def{background:#fff8e6;border:1px solid #f0d58a;border-radius:10px;padding:10px;font-size:.9rem}
+.pdf{display:inline-block;margin-top:6px;padding:6px 12px;background:var(--g);color:#fff;border-radius:8px;text-decoration:none;font-size:.88rem}
+.yr button{min-width:100px}img.info{width:100%;border-radius:10px;border:1px solid #ddd}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:6px}.grid label{font-size:.8rem}.grid input{margin-top:2px;padding:6px}
+.res{background:#eaf7f0;border-radius:10px;padding:10px}.warn{color:#b05a00;font-size:.85rem}
+footer{text-align:center;font-size:.82rem;color:#5a6878;padding:24px 12px}
+</style></head><body>
+<header><h1>富邦人壽 115年第四季 競賽・獎勵總覽</h1><p>同仁們辛苦了！一頁看懂Q4各項辦法、截止日與自己適用的獎勵，衝刺年底一起加油 💪</p></header>
+<main>
+<div class="sticky"><div class="tabs" id="gtabs"></div><input type="search" id="q" placeholder="🔍 搜尋：例如 FYC、長照、信用卡、125…"></div>
+<div class="def" id="gdef"></div>
+<h2>📅 重要日期時間軸</h2><div class="card"><ul class="tl" id="tl"></ul></div>
+<div id="rules"></div>
+<h2 id="xr">🌱 新人行銷暨相關獎勵（114年／115年）</h2>
+<div class="card"><div class="tabs yr" id="ytabs"><button data-y="114">114年報聘規則</button><button data-y="115">115年報聘規則</button></div>
+<div id="xbody"></div>
+<h3 style="margin-top:14px">🧮 新人獎勵試算器</h3>
+<p class="meta">輸入每月核實FYC（單位：萬元）。可先填「每月相同」快速帶入，再個別調整。僅供參考，實際以公司核發為準。</p>
+<label>每月相同FYC（萬）<input type="number" id="same" step="0.1" placeholder="例如 3"></label>
+<div class="grid" id="mgrid"></div><div class="res" id="res"></div></div>
+</main>
+<footer>資料以公司公文為準｜更新日期 2026/10/11（民國115年10月11日）<br>如有疑義請洽業務活動部／業務行銷部承辦同仁</footer>
+<script src="data.js"></script>
+<script>
+let G='all',Y='114';const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+const tabs=[['all','全部'],['xx','新新人'],['xr','新人'],['gr','個人組']];
+$('#gtabs').innerHTML=tabs.map(([k,v])=>`<button data-g="${k}">${v}</button>`).join('');
+$('#gtabs').onclick=e=>{if(e.target.dataset.g){G=e.target.dataset.g;render()}};
+$('#q').oninput=render;
+function tbl(r){return '<table>'+r.map((row,i)=>'<tr>'+row.map(c=>i?`<td>${esc(c)}</td>`:`<th>${esc(c)}</th>`).join('')+'</tr>').join('')+'</table>'}
+function tablesFor(r){const t=r.tables,out=[];if(t.all)out.push(tbl(t.all));
+ const keys=G==='all'?['xx','xr','gr']:[G];keys.forEach(k=>{if(t[k])out.push(`<div class="tag">${GROUPS[k].name}</div>`+tbl(t[k]))});return out.join('')}
+function render(){
+ document.querySelectorAll('#gtabs button').forEach(b=>b.classList.toggle('on',b.dataset.g===G));
+ $('#gdef').innerHTML=G==='all'?'<b>組別定義（依第125號公文）</b><br>'+Object.values(GROUPS).map(g=>`<b>${g.name}</b>：${g.def}`).join('<br>'):`<b>${GROUPS[G].name}</b>：${GROUPS[G].def}`;
+ const q=$('#q').value.trim().toLowerCase();let html='',cat='';
+ RULES.filter(r=>(G==='all'||r.groups.includes(G))&&(!q||JSON.stringify(r).toLowerCase().includes(q))).forEach(r=>{
+  if(r.cat!==cat){cat=r.cat;html+=`<h2>${cat}</h2>`}
+  html+=`<div class="card"><h3>${esc(r.name)}</h3><div class="meta">${esc(r.no)}｜公告日 ${r.date}</div>
+  ${(r.groups.length?r.groups:[]).map(g=>`<span class="tag">${GROUPS[g].name}</span>`).join('')||'<span class="tag">通訊處組</span>'}
+  <dl><dt>受理／結案／簽收期間</dt><dd>${esc(r.period)}</dd><dt>適用對象</dt><dd>${esc(r.who)}</dd>
+  <dt>門檻與獎勵</dt><dd>${tablesFor(r)}${esc(r.reward)}</dd><dt>計算方式</dt><dd>${esc(r.calc)}</dd>
+  ${r.note?`<dt>注意事項</dt><dd>${esc(r.note)}</dd>`:''}</dl>
+  <a class="pdf" href="pdf/${r.pdf}" download>📄 下載原文</a> ${r.pdf2?`<a class="pdf" href="pdf/${r.pdf2}" download>📄 附件商品清單</a>`:''}</div>`});
+ $('#rules').innerHTML=html||'<div class="card">找不到符合的辦法，換個關鍵字試試～</div>';
+ $('#xr').style.display=$('#xr').nextElementSibling.style.display=(G==='gr')?'none':'';
+}
+const TL=[['115/09/30','Q4各項競賽／專案開始受理'],['115/10/01','「十月首二日」受理截止'],['115/10/01','整合行銷第一重推卡進件開始'],['115/10/27','第10工作月受理截止（408/440/448/452；10月月獎金）'],['115/11/05','「十月首二日」結案截止'],['115/11/25','第10工作月最後結案日；11月受理截止'],['115/11/27','新人組10月月獎金結案日'],['115/12/10','第10工作月保障型專案最後簽收日'],['115/12/28','Q4競賽／專案受理截止（125/128/129/130/442/443第二重/455）'],['115/12/31','整合行銷第一重進件截止'],['116/01/07','整合行銷第二重結案(入帳)截止'],['116/01/25','442、455最後結案日'],['116/01/28','Q4主競賽結案截止（125/128/129/130/132）'],['116/01/31','整合行銷第一重核卡截止'],['116/02/10','442最後簽收日']];
+$('#tl').innerHTML=TL.sort((a,b)=>a[0]<b[0]?-1:1).map(([d,t])=>`<li><b>${d}</b>　${t}</li>`).join('');
+// 新人
+$('#ytabs').onclick=e=>{if(e.target.dataset.y){Y=e.target.dataset.y;xr()}};
+const best=(v,t)=>{let r=0;t.forEach(([th,a])=>{if(v>=th-1e-9)r=a});return r};
+function xr(){document.querySelectorAll('#ytabs button').forEach(b=>b.classList.toggle('on',b.dataset.y===Y));const d=XINREN[Y];let h='';
+ if(Y==='114'){h+=tbl([['新人月月獎金','月核實FYC','獎金'],...d.monthly.y1.map(([a,b])=>['第1–12個月',a+'萬',b.toLocaleString()+'元']),...d.monthly.y2.map(([a,b])=>['第13–24個月',a+'萬',b.toLocaleString()+'元'])])
+  +tbl([['新人季通算獎金（補發差額）','季核實FYC','獎金'],...d.quarter.y1.map(([a,b])=>['第1–12個月',a+'萬',b.toLocaleString()+'元']),...d.quarter.y2.map(([a,b])=>['第13–24個月',a+'萬',b.toLocaleString()+'元'])])
+  +tbl([['年度加碼獎金（僅第一年）','年核實FYC','獎金'],...d.annual.map(([a,b])=>['第一年',a+'萬以上',b.toLocaleString()+'元'])])+'<p class="meta">✅ 已依 (113)富壽業企發字第143號 公文核對（<a href="pdf/113-143-xinren.pdf" download>下載原文</a>）</p>';}
+ else{h+='<p class="meta">✅ 已依 (114)富壽業企發字第196號 公文核對（<a href="pdf/114-196-xinren.pdf" download>下載原文</a>）</p>'+tbl([['新人月月獎金','月核實FYC','獎金'],['第1–6個月','1.5萬','10,000元'],['第7–12個月','2萬','10,000元'],['第13–24個月','3萬','10,000元']])
+  +tbl([['新人績效獎金（季，不扣月月）','季核實FYC','獎金'],['第1–6個月','6萬','10,000元'],['第7–12個月','7.5萬','10,000元'],['第13–24個月','9萬','10,000元']])
+  +tbl([['定著加碼獎金','年核實FYC','獎金'],...d.annualY1.map(([a,b])=>['第一年',a+'萬',b.toLocaleString()+'元']),...d.annualY2.map(([a,b])=>['第二年',a+'萬',b.toLocaleString()+'元'])]);}
+ h+='<b>條件與說明</b><ul>'+d.conds.map(c=>`<li>${esc(c)}</li>`).join('')+'</ul>'+`<img class="info" src="${d.img}" alt="${Y}年新人行銷暨相關獎勵圖"><p class="meta">原始圖檔（${Y}年），點圖可放大：<a href="${d.img}" target="_blank">開啟</a></p>`;
+ $('#xbody').innerHTML=h;calc()}
+$('#mgrid').innerHTML=Array.from({length:24},(_,i)=>`<label>第${i+1}月<input type="number" step="0.1" min="0" data-m="${i}"></label>`).join('');
+$('#same').oninput=e=>{document.querySelectorAll('[data-m]').forEach(x=>x.value=e.target.value);calc()};
+$('#mgrid').oninput=calc;
+function calc(){const m=[...document.querySelectorAll('[data-m]')].map(x=>+x.value||0),d=XINREN[Y];let out='',tot=0;
+ for(let y=0;y<2;y++){let mo=0,qt=0;const ms=m.slice(y*12,y*12+12),paid=[];
+  ms.forEach((v,i)=>{const idx=y*12+i+1;let a;if(Y==='114')a=best(v,y?d.monthly.y2:d.monthly.y1);else a=best(v,[[idx<=6?1.5:idx<=12?2:3,10000]]);paid.push(a);mo+=a});
+  for(let q=0;q<4;q++){const s=ms.slice(q*3,q*3+3).reduce((a,b)=>a+b,0),p=paid.slice(q*3,q*3+3).reduce((a,b)=>a+b,0),qi=y*4+q+1;let a;
+   if(Y==='114')a=best(s,y?d.quarter.y2:d.quarter.y1);else a=best(s,[[qi<=2?6:qi<=4?7.5:9,10000]]);qt+=Y==='114'?Math.max(0,a-p):a}
+  const ys=ms.reduce((a,b)=>a+b,0);let an,anote='';
+  if(Y==='114'){if(y===1){an=0;anote='（114年規則年度加碼僅第一年）'}else{let cnt=0;for(let q=0;q<4;q++){const s3=ms.slice(q*3,q*3+3).reduce((a,b)=>a+b,0);const qa=best(s3,d.quarter.y1)-paid.slice(q*3,q*3+3).reduce((a,b)=>a+b,0);cnt+=qa>0?3:paid.slice(q*3,q*3+3).filter(x=>x>0).length}
+   const q4=ms.slice(9,12).reduce((a,b)=>a+b,0);if(cnt>=9&&q4>=4.5){an=best(ys,d.annual)}else{an=0;anote='（未達：至少9個月領月月獎金且第四季≧4.5萬）'}}}
+  else an=best(ys,y?d.annualY2:d.annualY1);const sub=mo+qt+an;tot+=sub;
+  out+=`<div><b>第${y+1}年</b>（年FYC ${ys.toFixed(1)}萬）：月月 ${mo.toLocaleString()}＋季獎金 ${qt.toLocaleString()}＋${Y==='114'?'年度加碼':'定著加碼'} ${an.toLocaleString()}${anote}＝<b>${sub.toLocaleString()}元</b></div>`}
+ $('#res').innerHTML=out+`<div style="font-size:1.1rem;margin-top:6px">二年合計：<b>${tot.toLocaleString()}元</b></div><p class="warn">須符合：活動參與率70%、證照登錄期限、業務品質等條件（見上方）。${Y==='114'?'114年季通算已扣除當季月月獎金（補差額）。':'115年績效獎金依公文不扣月月獎金。'}</p>`}
+render();xr();
+</script></body></html>
