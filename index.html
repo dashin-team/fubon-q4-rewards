@@ -27,6 +27,28 @@ footer{text-align:center;font-size:.82rem;color:#5a6878;padding:24px 12px}
 <main>
 <div class="sticky"><div class="tabs" id="gtabs"></div><input type="search" id="q" placeholder="🔍 搜尋：例如 FYC、長照、信用卡、125…"></div>
 <div class="def" id="gdef"></div>
+<nav class="tabs" style="margin:8px 0"><a class="pdf" href="#calc">🧮 獎勵試算</a> <a class="pdf" href="#ovw">🖼️ 總覽圖</a> <a class="pdf" href="#docs">📄 原始公文</a></nav>
+<h2 id="calc">🧮 第四季獎勵試算（第10–12工作月）</h2>
+<div class="card" style="border:3px solid var(--g)">
+<p class="meta">業績受理 115/9/30～115/12/28。僅計算「依個人險FYC（及選填FYP）即可判定」之獎勵；僅供參考，實際以公司核發為準。</p>
+<b>組別</b><div class="tabs" id="cg"><button data-v="xx">新新人</button><button data-v="xr">新人</button><button data-v="gr">個人組</button></div>
+<div id="cregw"><b>新人規則年度</b><div class="tabs" id="creg"><button data-v="114">114年登錄（報聘）</button><button data-v="115">115年登錄（報聘）</button></div>
+<label>10月（第10工作月）是報聘第幾個月 <input type="number" id="ct0" min="1" max="24"></label><div class="meta" id="cregnote"></div></div>
+<b>每月個人險FYC（萬元，10/11/12月相同）</b><div class="tabs" id="cq"><button data-v="3">3萬</button><button data-v="4">4萬</button><button data-v="5">5萬</button></div>
+<label>自訂（萬）<input type="number" id="cc" step="0.1" min="0"></label>
+<div class="grid"><label>10月<input type="number" step="0.1" min="0" class="cm"></label><label>11月<input type="number" step="0.1" min="0" class="cm"></label><label>12月<input type="number" step="0.1" min="0" class="cm"></label></div>
+<label>（選填）第四季累計FYP，不含投資型（萬元）— 第128號以FYP計，非FYC<input type="number" id="cfyp" min="0" step="1" placeholder="0"></label>
+<div class="res" id="cres"></div>
+<details open><summary><b>未納入試算的獎勵（需商品/件數/排名/其他條件）</b></summary><ul class="meta">
+<li>125 高標獎勵（需對114年基期之成長率）、通訊處組獎金</li><li>127 十月首二日（僅 9/30–10/1 兩日FYC≧5萬，1,688元）</li><li>128 FYP成長加碼（需第三季FYP）</li><li>129 投資型特定商品新契約（每百萬FYP 5,000元）</li><li>130 通訊處搶金賽（處主管）</li><li>132 新銳培訓加碼（須115年Q3完成新銳培訓）</li><li>133 勇士英雄會／新人王（排名資格）</li><li>408／448 保障型四大類加碼、452 保障型特定商品、440 實在滿溢、442 再購保障型、455 榮耀表揚（皆需特定商品FYC／保費）</li><li>443 信用卡及壽險二重奏（推卡數＋排名）</li><li>094 群新會旅遊補助、398 綁定王（增員／榮耀）</li><li>新人年度加碼／定著加碼（第13/25個月結算，需全年FYC）、整合行銷件數、新人活動量、輔導/增員獎勵</li>
+<li>報聘季未對齊第10–12工作月時之新人季獎金（請見原文）</li></ul></details>
+<details><summary><b>關鍵條件</b></summary><ul class="meta"><li>125/128：競賽期間（含結案日）持續任職CA/NCT以上；RSA/HRA合約有效；FYC＝個人險FYC（不含團險/跨售/加碼）；超標以「競賽FYC」計，本試算假設競賽FYC＝輸入FYC</li>
+<li>新人月月/季獎金：當月（季每月）活動參與率達70%；期限內完成產險（6個工作月內）及外幣收付非投資型（12個工作月內）證照登錄；以核實FYC計</li>
+<li>114年規則季通算須扣除當季已領月月獎金（補發差額）；115年規則公文未載明扣除</li><li>業務品質：停招累計6個月或單次記點6點取消獎金；小過減發50%</li></ul></details>
+</div>
+<h2 id="ovw">🖼️ 總覽圖</h2><div class="card" id="ovlist"></div>
+<h2 id="docs">📄 原始公文</h2><div class="card" id="doclist"></div>
+
 <h2>📅 重要日期時間軸</h2><div class="card"><ul class="tl" id="tl"></ul></div>
 <div id="rules"></div>
 <h2 id="xr">🌱 新人行銷暨相關獎勵（114年／115年）</h2>
@@ -93,4 +115,32 @@ function calc(){const m=[...document.querySelectorAll('[data-m]')].map(x=>+x.val
   out+=`<div><b>第${y+1}年</b>（年FYC ${ys.toFixed(1)}萬）：月月 ${mo.toLocaleString()}＋季獎金 ${qt.toLocaleString()}＋${Y==='114'?'年度加碼':'定著加碼'} ${an.toLocaleString()}${anote}＝<b>${sub.toLocaleString()}元</b></div>`}
  $('#res').innerHTML=out+`<div style="font-size:1.1rem;margin-top:6px">二年合計：<b>${tot.toLocaleString()}元</b></div><p class="warn">須符合：活動參與率70%、證照登錄期限、業務品質等條件（見上方）。${Y==='114'?'114年季通算已扣除當季月月獎金（補差額）。':'115年績效獎金依公文不扣月月獎金。'}</p>`}
 render();xr();
-</script></body></html>
+</script><script src="q4calc.js"></script>
+<script>
+(function(){const $=s=>document.querySelector(s);let CG='xx',CR='115';
+const fmt=n=>n.toLocaleString()+'元';
+const RNG={xx:{'114':[11,12,'114/11報聘→12、114/12報聘→11'],'115':[1,10,'115/1報聘→10 … 115/10報聘→1（115/11–12報聘者Q4未滿三個月，請見原文）']},xr:{'114':[13,22,'新人(非新新人)=114/1–114/10報聘→13–22（113/11–12報聘適用113年新人規則，未提供）']}};
+function sync(){if(CG==='xr')CR='114';
+ document.querySelectorAll('#cg button').forEach(b=>b.classList.toggle('on',b.dataset.v===CG));
+ document.querySelectorAll('#creg button').forEach(b=>{b.classList.toggle('on',b.dataset.v===CR);b.disabled=CG==='xr'&&b.dataset.v==='115'});
+ $('#cregw').style.display=CG==='gr'?'none':'';
+ if(CG!=='gr'){const [a,b,n]=RNG[CG][CR];const t=$('#ct0');t.min=a;t.max=b;if(!(+t.value>=a&&+t.value<=b))t.value=CG==='xx'?(CR==='115'?4:12):13;$('#cregnote').textContent='可選範圍 '+a+'–'+b+'：'+n+(CG==='xr'?'；115年報聘者屬「新新人」':'')}
+ run()}
+function run(){const fyc=[...document.querySelectorAll('.cm')].map(x=>+x.value||0);
+ const o=q4calc({group:CG,reg:CR,t0:+$('#ct0').value||1,fyc,fyp:+$('#cfyp').value||0});
+ $('#cres').innerHTML='<table><tr><th>獎勵項目</th><th>金額</th><th>結算日</th></tr>'+(o.items.map(i=>`<tr><td>${i[0]}</td><td style="text-align:right">${fmt(i[1])}</td><td>${i[2]}</td></tr>`).join('')||'<tr><td colspan=3>未達任何門檻</td></tr>')+`<tr><th>合計</th><th style="text-align:right;font-size:1.15rem">${fmt(o.total)}</th><th></th></tr></table>`+o.notes.map(n=>`<p class="warn">⚠️ ${n}</p>`).join('')}
+$('#cg').onclick=e=>{if(e.target.dataset.v){CG=e.target.dataset.v;sync()}};
+$('#creg').onclick=e=>{if(e.target.dataset.v&&!e.target.disabled){CR=e.target.dataset.v;sync()}};
+const setAll=v=>{document.querySelectorAll('.cm').forEach(x=>x.value=v);run()};
+$('#cq').onclick=e=>{if(e.target.dataset.v){$('#cc').value=e.target.dataset.v;document.querySelectorAll('#cq button').forEach(b=>b.classList.toggle('on',b===e.target));setAll(e.target.dataset.v)}};
+$('#cc').oninput=e=>{document.querySelectorAll('#cq button').forEach(b=>b.classList.remove('on'));setAll(e.target.value)};
+document.querySelectorAll('.cm,#ct0,#cfyp').forEach(x=>x.oninput=run);
+setAll(3);document.querySelector('#cq button').classList.add('on');sync();
+// 原始公文
+const docs=RULES.map(r=>[r.no,r.name,r.date,r.pdf]).concat(RULES.filter(r=>r.pdf2).map(r=>[r.no+' 附件','商品清單',r.date,r.pdf2]),[['(113)富壽業企發字第143號','114年新人績效獎勵專案（含附件）','請見原文','113-143-xinren.pdf'],['(114)富壽業企發字第196號','115年新人績效暨定著獎勵專案（含附件）','請見原文','114-196-xinren.pdf']]);
+$('#doclist').innerHTML='<table><tr><th>公文字號</th><th>名稱</th><th>公告日</th><th></th></tr>'+docs.map(d=>`<tr id="doc-${d[3]}"><td>${d[0]}</td><td>${d[1]}</td><td>${d[2]}</td><td style="white-space:nowrap"><a class="pdf" href="pdf/${d[3]}" target="_blank" rel="noopener">線上開啟</a> <a class="pdf" href="pdf/${d[3]}" download>下載</a></td></tr>`).join('')+'</table>';
+const OV=[['img/q4-rewards-overview-1.png','主競賽獎勵總覽',['125','127','128','129','130','132','133']],['img/q4-rewards-overview-2.png','保障型・整合行銷・增員',['408','448','452','440','442','455','443','094','398']],['img/q4-rewards-overview-3.png','新人獎勵總覽',['113-143-xinren','114-196-xinren','125','132']]];
+$('#ovlist').innerHTML=OV.map(([s,t,l])=>`<div style="margin-bottom:16px"><b>${t}</b><a href="${s}" target="_blank"><img class="info" src="${s}" alt="${t}" loading="lazy"></a><div class="meta">點圖開啟原尺寸｜相關原始公文：${l.map(x=>`<a href="pdf/${x}.pdf" target="_blank">${x}</a>`).join('、')}</div></div>`).join('');
+})();
+</script>
+</body></html>
