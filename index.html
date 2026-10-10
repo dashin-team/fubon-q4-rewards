@@ -1,4 +1,5 @@
 <!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="robots" content="noindex,nofollow"><meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" href="img/logo.jpg"><link rel="apple-touch-icon" href="img/logo.jpg">
 <title>富邦人壽 115年第四季 競賽獎勵總覽</title>
 <style>
 :root{--b:#0a5ea8;--bg:#f4f7fb;--t:#1d2733}
@@ -26,9 +27,11 @@ tr:nth-child(odd) td{background:var(--l)}td:last-child{font-weight:800;color:var
 .yr{display:flex;gap:6px;margin:8px 0}.yr button{flex:1;padding:8px;border:2px solid #1f9d6b;background:#fff;color:#1f9d6b;border-radius:10px;font-weight:700}.yr button.on{background:#1f9d6b;color:#fff}
 img.info{width:100%;border-radius:12px;border:1px solid #ddd;display:block}
 .docs a{display:flex;justify-content:space-between;gap:8px;background:#fff;padding:8px 10px;border-radius:8px;margin:4px 0;text-decoration:none;color:var(--t);font-size:.82rem}.docs a span:last-child{color:var(--b);white-space:nowrap}
+header{display:flex;align-items:center;gap:12px}.logo{width:72px;height:72px;border-radius:16px;object-fit:cover;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.2);flex:0 0 auto}.slogan{font-weight:800;font-size:1rem;letter-spacing:1px;margin-bottom:2px}
+.rip{position:fixed;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;background:url(img/logo.jpg) center/cover;pointer-events:none;z-index:99;opacity:.45;animation:rp .45s ease-out forwards}@keyframes rp{to{transform:scale(1.8);opacity:0}}@media (prefers-reduced-motion:reduce){.rip{display:none}}
 footer{text-align:center;font-size:.78rem;color:#6a7787;padding:20px 10px}
 </style></head><body>
-<header><h1>🏆 115年第四季 競賽獎勵總覽</h1><p>富邦人壽｜依身分查看適用獎勵・以原始公文為準</p></header>
+<header><img class="logo" src="img/logo.jpg" alt="大心"><div><div class="slogan">台南最大心，服務最用心</div><h1>115年第四季 競賽獎勵總覽</h1><p>富邦人壽｜依身分查看適用獎勵・以原始公文為準</p></div></header>
 <main>
 <div class="sticky"><div class="tabs" id="gtabs"></div></div>
 <div class="def" id="gdef"></div>
@@ -80,4 +83,5 @@ function render(){document.querySelectorAll('#gtabs button').forEach(b=>b.classL
 const docs=RULES.map(r=>[r.no,r.name,r.pdf]).concat(RULES.filter(r=>r.pdf2).map(r=>[r.no+' 附件','商品清單',r.pdf2]),[['(113)富壽業企發字第143號','114年新人績效獎勵專案','113-143-xinren.pdf'],['(114)富壽業企發字第196號','115年新人績效暨定著獎勵專案','114-196-xinren.pdf']]);
 $('#docs').innerHTML=docs.map(d=>`<a href="pdf/${d[2]}" target="_blank" rel="noopener"><span>${esc(d[1])}<br><small style="color:#6a7787">${esc(d[0])}</small></span><span>📄 開啟</span></a>`).join('');
 render();
+document.addEventListener('pointerdown',e=>{if(!e.target.closest('button,a,.card'))return;const r=document.createElement('div');r.className='rip';r.style.left=e.clientX+'px';r.style.top=e.clientY+'px';document.body.appendChild(r);setTimeout(()=>r.remove(),500)},{passive:true});
 </script></body></html>
