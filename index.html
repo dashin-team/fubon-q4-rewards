@@ -21,7 +21,7 @@ h2{font-size:1.1rem;margin:20px 0 4px;display:flex;align-items:center;gap:6px}
 th{background:var(--c);color:#fff;padding:6px;text-align:left;font-weight:700}td{padding:6px;border-bottom:1px solid #eef1f5}
 tr:nth-child(odd) td{background:var(--l)}td:last-child{font-weight:800;color:var(--c);text-align:right}
 .key{margin:4px 14px;font-size:.82rem;color:#4a5866;background:#f6f8fb;border-radius:8px;padding:6px 8px}
-.warn{color:#b05a00}
+.warn{color:#b05a00}.soon{display:inline-block;margin-top:5px;background:#fff1e6;color:#c0392b;border:1px solid #f5b38a;border-radius:8px;padding:2px 8px;font-size:.8rem;font-weight:800}
 .btn{display:block;margin:10px 14px 14px;padding:11px;text-align:center;background:var(--c);color:#fff;border-radius:12px;text-decoration:none;font-weight:800}
 .btn2{display:inline-block;margin:0 14px 12px;font-size:.85rem;color:var(--c)}
 .yr{display:flex;gap:6px;margin:8px 0}.yr button{flex:1;padding:8px;border:2px solid #1f9d6b;background:#fff;color:#1f9d6b;border-radius:10px;font-weight:700}.yr button.on{background:#1f9d6b;color:#fff}
@@ -40,24 +40,25 @@ footer{text-align:center;font-size:.78rem;color:#6a7787;padding:20px 10px}
 <div id="rules"></div>
 <h2>📚 原始公文</h2><div class="docs" id="docs"></div>
 </main>
-<footer>資料以公司公文為準｜更新 115/10/11<br>如有疑義請洽業務活動部／業務行銷部承辦同仁</footer>
+<footer>資料以公司公文為準｜更新 115/10/25<br>如有疑義請洽業務活動部／業務行銷部承辦同仁</footer>
 <script src="data.js"></script>
 <script>
 const $=s=>document.querySelector(s);const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 let G='xx',Y='114';
-const CAT={'第四季主競賽':['🏆','#0a5ea8','#eef4fb'],'保障型專案':['🛡️','#1f9d6b','#edf8f2'],'整合行銷':['💳','#7b3fb5','#f5effb'],'增員／榮耀':['🤝','#d9741c','#fdf3ea'],'新人專案':['🌱','#c23a6b','#fcedf3']};
+const CAT={'第四季主競賽':['🏆','#0a5ea8','#eef4fb'],'保障型專案':['🛡️','#1f9d6b','#edf8f2'],'整合行銷':['💳','#7b3fb5','#f5effb'],'增員／榮耀':['🤝','#d9741c','#fdf3ea'],'新人專案':['🌱','#c23a6b','#fcedf3'],'特定商品加碼':['📈','#0f7f8c','#e9f6f7'],'活動／補助':['🎯','#8a6d12','#faf5e6']};
 // 簡短期間與結算日（摘自各公文 period 欄）
-const S={'125':['115/9/30～12/28','116/1/28'],'127':['115/9/30～10/1','115/11/5'],'128':['115/9/30～12/28','116/1/28'],'129':['115/9/30～12/28','116/1/28'],'130':['115/9/30～12/28','116/1/28'],'132':['同第125號','116/1/28'],'133':['同第125號','依第125號'],'455':['115/9/30～12/28','116/1/25'],'452':['115/9/30～10/27','結案11/25・簽收12/10'],'448':['115/9/30～10/27','結案11/25・簽收12/10'],'442':['115/9/30～12/28','結案116/1/25・簽收2/10'],'440':['115/9/30～10/27','結案11/25・簽收12/10'],'408':['第9月 8/26～9/29；第10月 9/30～10/27','第9月 10/27；第10月 11/25'],'443':['一重 10/1～12/31進件；二重 9/30～12/28','核卡116/1/31；入帳116/1/7'],'398':['第9～12工作月','每月公告'],'094':['第三季＋第四季','依季競賽']};
-const KEY={'125':'須持續任職CA/NCT以上；月獎金結案：10月→11/27、11月→12/28、12月→116/1/28。超標／高標獎勵請見原文。','127':'僅兩天受理，請把握！','128':'不含投資型；最高50萬為上限，各檻擇優。','129':'特定商品：VCAT、VCBT、VCBF、VCCT、VCCF、VCET、UOP、UND。','132':'115年第三季完成新銳培訓並結訓者；僅核發一次。','133':'同時取得多組資格以1人為限。','455':'須個人FYC累計達4萬；商品清單請見原文。','452':'獎勵＝比例×實收總保費。','448':'取代第408號第10工作月金額。⚠️「20萬→26,666元」與每萬1,000元推算不一致，請見原文。','442':'對象：投資型月配息及已領生存金客戶；商品清單見附件。','440':'以首期實收保費計算。','408':'第10工作月金額已由第448號調整，請以448號為準。','443':'新戶：從未申辦北富銀信用卡或剪卡超過180天。','398':'榮耀曝光（無獎金）。','094':'本辦法「新人」為115/7–12工作月報聘者，定義與第125號不同。旅遊：日本沖繩。'};
+const S={'125':['115/9/30～12/28','116/1/28'],'127':['115/9/30～10/1','115/11/5'],'128':['115/9/30～12/28','116/1/28'],'129':['115/9/30～12/28','116/1/28'],'130':['115/9/30～12/28','116/1/28'],'132':['同第125號','116/1/28'],'133':['同第125號','依第125號'],'455':['115/9/30～12/28','116/1/25'],'452':['115/9/30～10/27','結案11/25・簽收12/10'],'448':['115/9/30～10/27','結案11/25・簽收12/10'],'442':['115/9/30～12/28','結案116/1/25・簽收2/10'],'440':['115/9/30～10/27','結案11/25・簽收12/10'],'408':['第9月 8/26～9/29；第10月 9/30～10/27','第9月 10/27；第10月 11/25'],'443':['一重 10/1～12/31進件；二重 9/30～12/28','核卡116/1/31；入帳116/1/7'],'398':['第9～12工作月','每月公告'],'094':['第三季＋第四季','依季競賽'],'454':['115/9/30～10/27','結案11/25・簽收12/10'],'277':['115/7～12月（每月第二個週四）','次月前公佈得獎名單'],'471':['活動 116/4/21～22','116年6月統一撥款'],'475':['報名 115/11/2前','活動 116/1/9、1/10'],'062':['2026 MDRT/IDA年會','115年10月薪資撥付']};
+const KEY={'125':'須持續任職CA/NCT以上；月獎金結案：10月→11/27、11月→12/28、12月→116/1/28。超標／高標獎勵請見原文。','127':'僅兩天受理，請把握！','128':'不含投資型；最高50萬為上限，各檻擇優。','129':'特定商品：VCAT、VCBT、VCBF、VCCT、VCCF、VCET、UOP、UND。','132':'115年第三季完成新銳培訓並結訓者；僅核發一次。','133':'同時取得多組資格以1人為限。','455':'須個人FYC累計達4萬；商品清單請見原文。','452':'獎勵＝比例×實收總保費。','448':'取代第408號第10工作月金額。⚠️「20萬→26,666元」與每萬1,000元推算不一致，請見原文。','442':'對象：投資型月配息及已領生存金客戶；商品清單見附件。','440':'以首期實收保費計算。','408':'第10工作月金額已由第448號調整，請以448號為準。','443':'新戶：從未申辦北富銀信用卡或剪卡超過180天。','398':'榮耀曝光（無獎金）。','094':'本辦法「新人」為115/7–12工作月報聘者，定義與第125號不同。旅遊：日本沖繩。','454':'獎勵＝比例×台幣實收保費；分紅＋利變特定商品，共同招攬依歸屬人數分別計算。','277':'會後完整填寫CDM問卷即可抽獎；每人僅一次獲獎機會。尚餘 11/12、12/10 兩場。','471':'須自費報名參加；轉讓名額者不予補助。新人定義：114/1～115/12工作月報聘（與第125號不同）。','475':'無獎金；福利為公益時數、早餐、互動小物等，詳見原文。','062':'三年內補助一次；補助名單已由第457號公佈，請見原文。'};
+const SOON={'127':'即將結束：受理已於10/1截止，11/5結案','452':'即將結束：115/10/27 受理截止','448':'即將結束：115/10/27 受理截止','440':'即將結束：115/10/27 受理截止','408':'第10工作月部分即將結束：115/10/27 受理截止（第9工作月已截止）','454':'即將結束：115/10/27 受理截止'};
 const tabs=[['xx','🌟 新新人'],['xr','🌱 新人'],['gr','👤 個人組']];
 $('#gtabs').innerHTML=tabs.map(([k,v])=>`<button data-g="${k}">${v}</button>`).join('');
 $('#gtabs').onclick=e=>{const b=e.target.closest('button');if(b){G=b.dataset.g;render()}};
 const tbl=r=>'<table>'+r.map((row,i)=>'<tr>'+row.map(c=>i?`<td>${esc(c)}</td>`:`<th>${esc(c)}</th>`).join('')+'</tr>').join('')+'</table>';
-function card(cat,name,no,period,settle,tables,key,pdf,pdf2){const [ic,c,l]=CAT[cat];
- return `<div class="card" style="--c:${c};--l:${l}"><div class="hd"><h3>${ic} ${esc(name)}</h3><div class="no">${esc(no)}</div></div>
+function card(cat,name,no,period,settle,tables,key,pdf,pdf2,pdf2t,soon){const [ic,c,l]=CAT[cat];
+ return `<div class="card" style="--c:${c};--l:${l}"><div class="hd"><h3>${ic} ${esc(name)}</h3><div class="no">${esc(no)}</div>${soon?`<div class="soon">⏰ ${esc(soon)}</div>`:''}</div>
  <div class="kv"><b>📅 期間</b><span>${esc(period)}</span><b>🏁 結算日</b><span>${esc(settle)}</span></div>
  <div class="tw">${tables.map(tbl).join('')}</div>${key?`<div class="key">${esc(key).replace('⚠️','<span class="warn">⚠️')}${key.includes('⚠️')?'</span>':''}</div>`:''}
- <a class="btn" href="pdf/${pdf}" target="_blank" rel="noopener">📄 看原始公文</a>${pdf2?`<a class="btn2" href="pdf/${pdf2}" target="_blank" rel="noopener">📎 附件商品清單</a>`:''}</div>`}
+ <a class="btn" href="pdf/${pdf}" target="_blank" rel="noopener">📄 看原始公文</a>${pdf2?`<a class="btn2" href="pdf/${pdf2}" target="_blank" rel="noopener">📎 ${esc(pdf2t||'附件商品清單')}</a>`:''}</div>`}
 const XRT={'114':[[['月月獎金','月核實FYC','獎金'],['第1–12個月','2萬','10,000元'],['第1–12個月','3萬','15,000元'],['第1–12個月','4萬','18,000元'],['第13–24個月','3萬','6,000元'],['第13–24個月','4萬','10,000元']],[['季通算（補發差額）','季核實FYC','獎金'],['第1–12個月','7.5萬','30,000元'],['第1–12個月','10.5萬','45,000元'],['第1–12個月','13.5萬','54,000元'],['第13–24個月','10.5萬','18,000元'],['第13–24個月','13.5萬','30,000元']],[['年度加碼（僅第一年）','年核實FYC','獎金'],['第一年','36萬','24,000元'],['第一年','48萬','32,000元'],['第一年','60萬','44,000元'],['第一年','72萬以上','60,000元']]],
 '115':[[['月月獎金','月核實FYC','獎金'],['第1–6個月','1.5萬','10,000元'],['第7–12個月','2萬','10,000元'],['第13–24個月','3萬','10,000元']],[['績效獎金（季）','季核實FYC','獎金'],['第1–6個月','6萬','10,000元'],['第7–12個月','7.5萬','10,000元'],['第13–24個月','9萬','10,000元']],[['定著加碼','年核實FYC','獎金'],['第一年（第13個月）','24萬','12,000元'],['第一年（第13個月）','36萬','24,000元'],['第一年（第13個月）','48萬','32,000元'],['第二年（第25個月）','36萬','24,000元'],['第二年（第25個月）','48萬','32,000元'],['第二年（第25個月）','60萬','44,000元']]]};
 const XRK={'114':'每月活動參與率70%＋期限內完成產險（6個工作月內）、外幣收付非投資型（12個工作月內）證照登錄。季通算須扣除已領月月獎金；年度加碼另需至少9個月領月月獎金且第四季FYC≧4.5萬。整合行銷、宜花東加碼等請見原文。',
@@ -73,14 +74,14 @@ function render(){document.querySelectorAll('#gtabs button').forEach(b=>b.classL
  $('#gdef').innerHTML=`<b>${GROUPS[G].name}定義</b>：${esc(GROUPS[G].def)}`;
  const rs=RULES.filter(r=>r.groups.includes(G));
  const ds={};rs.forEach(r=>{(S[r.id][1].match(/1\d\d\/\d+\/\d+|\d+\/\d+/g)||[]).forEach(x=>{})});
- const strip=[['10/1','首二日受理截止'],['10/27','第10工作月受理截止'],['11/25','第10工作月結案'],['12/28','Q4受理截止'],['116/1/25','442・455結案'],['116/1/28','Q4主競賽結案']];
+ const strip=[['10/27','⏰ 第10工作月受理截止'],['11/2','高雄馬應援團報名截止'],['11/12','商品種子會議'],['11/25','第10工作月結案'],['12/28','Q4受理截止'],['116/1/25','442・455結案'],['116/1/28','Q4主競賽結案']];
  $('#strip').innerHTML=strip.map(([a,b])=>`<div><b>${a}</b>${b}</div>`).join('');
  xrsec();let h='',cat='';
  rs.forEach(r=>{if(r.cat!==cat){cat=r.cat;h+=`<h2>${CAT[cat][0]} ${cat}</h2>`}
   const t=[];if(r.tables.all)t.push(r.tables.all);if(r.tables[G])t.push(r.tables[G]);
-  h+=card(r.cat,r.name,r.no,S[r.id][0],S[r.id][1],t,KEY[r.id],r.pdf,r.pdf2)});
+  h+=card(r.cat,r.name,r.no,S[r.id][0],S[r.id][1],t,KEY[r.id],r.pdf,r.pdf2,r.pdf2t,r.soon?SOON[r.id]:'')});
  $('#rules').innerHTML=h}
-const docs=RULES.map(r=>[r.no,r.name,r.pdf]).concat(RULES.filter(r=>r.pdf2).map(r=>[r.no+' 附件','商品清單',r.pdf2]),[['(113)富壽業企發字第143號','114年新人績效獎勵專案','113-143-xinren.pdf'],['(114)富壽業企發字第196號','115年新人績效暨定著獎勵專案','114-196-xinren.pdf']]);
+const docs=RULES.map(r=>[r.no,r.name,r.pdf]).concat(RULES.filter(r=>r.pdf2).map(r=>[r.no+' 附件',r.pdf2t||'商品清單',r.pdf2]),[['(113)富壽業企發字第143號','114年新人績效獎勵專案','113-143-xinren.pdf'],['(114)富壽業企發字第196號','115年新人績效暨定著獎勵專案','114-196-xinren.pdf']]);
 $('#docs').innerHTML=docs.map(d=>`<a href="pdf/${d[2]}" target="_blank" rel="noopener"><span>${esc(d[1])}<br><small style="color:#6a7787">${esc(d[0])}</small></span><span>📄 開啟</span></a>`).join('');
 render();
 document.addEventListener('pointerdown',e=>{if(!e.target.closest('button,a,.card'))return;const r=document.createElement('div');r.className='rip';r.style.left=e.clientX+'px';r.style.top=e.clientY+'px';document.body.appendChild(r);setTimeout(()=>r.remove(),500)},{passive:true});
